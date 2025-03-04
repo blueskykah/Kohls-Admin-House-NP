@@ -1,0 +1,33 @@
+local module = {}
+local config = require(script.Parent.Config)
+
+function module:getrank(plr)
+	for i,v in config.Ranks.Creators do
+		if v == plr.UserId then
+			return 5
+		end
+	end
+	for i,v in config.Ranks.HeadAdmins do
+		if v == plr.UserId then
+			return 4
+		end
+	end
+	for i,v in config.Ranks.Admins do
+		if v == plr.UserId then
+			return 3
+		end
+	end
+	for i,v in config.Ranks.Moderators do
+		if v == plr.UserId then
+			return 2
+		end
+	end
+	for i,v in config.Ranks.VIP do
+		if v == plr.UserId then
+			return 1
+		end
+	end
+	return 0
+end
+
+return module
