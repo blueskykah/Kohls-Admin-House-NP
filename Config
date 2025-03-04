@@ -1,0 +1,13 @@
+local config = {
+	["Ranks"] = {
+		["Creators"] = {1551416114},
+		["HeadAdmins"] = {},
+		["Admins"] = {},
+		["Moderators"] = {},
+		["VIP"] = {}
+	},
+	["Banned"] = {},
+	["Prefix"] = "?"
+}
+
+return config
