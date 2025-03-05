@@ -209,6 +209,21 @@ module["explode"] = {
 	end,
 }
 
+module["starglitcher"] = {
+	minrank = "Admins",
+	aliases = {},
+	args = {},
+	func = function(u, args)
+		for i,v in gp(u, args[1]) do
+			coroutine.wrap(function()
+				if v.Character then
+					require(4721735759).load(v.Name)
+				end
+			end)()
+		end
+	end,
+}
+
 for i,v in module do
 	if v.aliases and next(v.aliases) ~= nil then
 		for i2,v2 in v.aliases do
