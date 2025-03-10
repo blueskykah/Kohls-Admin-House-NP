@@ -1,9 +1,19 @@
+
+
 local module = {aliases = {}}
 local cons = {}
 local vars = {}
 local loadstr = require(script.Parent.loadstring)
 local config = require(script.Parent.Config)
 local funcs = require(script.Parent.Functions)
+local letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~', ' '}
+local function randomstring(length)
+	local t = ""
+	for i=1,length do
+		t = t..letters[math.random(1,#letters)]
+	end
+	return t
+end
 local function gp(u, str)
 	if str and type(str) == "string" and str ~= "" then
 		local players = game.Players:GetPlayers()
@@ -191,6 +201,81 @@ module["serverscript"] = {
 		if not s then
 			warn(e)
 		end
+	end,
+}
+
+module["permmusic"] = {
+	minrank = "Admins",
+	aliases = {"pmusic"},
+	args = {"*Id*"},
+	func = function(u, args, fs)
+		if cons["PermMusic"] and cons["PermMusic"].Connected then
+            cons["PermMusic"]:Disconnect()
+            cons["PermMusic"] = nil
+            coroutine.wrap(function()
+                for i,v in game.Players:GetPlayers() do
+                    coroutine.wrap(function()
+                        local scr = script.Parent.Client:Clone()
+                        local loa = script.Parent.loadstring:Clone()
+                        loa.Parent = scr
+                        scr:WaitForChild("Exec").Value = [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil"):Destroy() end]]
+                        scr.Parent = v.PlayerGui
+                        scr.Enabled = true
+                    end)()
+                end
+            end)()
+        end
+        local s = Instance.new("Sound")
+        local d = Instance.new("ScreenGui")
+        d.Name = "nil"
+        s.Looped = true
+        s.SoundId = "http://www.roblox.com/asset/?id="..args[1]
+        s.Volume = 1
+        s.Playing = true
+        for i,v in game.Players:GetPlayers() do
+            local g = d:Clone()
+            g.ResetOnSpawn = false
+            local s2 = s:Clone()
+            s2.Parent = g
+            g.Parent = v.PlayerGui
+            s2.Playing = true
+			s2.Name = randomstring(25)
+            s2.TimePosition = s.TimePosition
+        end
+        cons["PermMusic"] = game.Players.PlayerAdded:Connect(function(p)
+            local g = d:Clone()
+            g.ResetOnSpawn = false
+            local s2 = s:Clone()
+            s2.Parent = g
+            g.Parent = p.PlayerGui
+            s2.Playing = true
+			s2.Name = randomstring(25)
+            s2.TimePosition = s.TimePosition
+        end)
+	end,
+}
+
+module["nopermmusic"] = {
+	minrank = "Admins",
+	aliases = {"nopmusic"},
+	args = {},
+	func = function(u, args, fs)
+		if cons["PermMusic"] and cons["PermMusic"].Connected then
+            cons["PermMusic"]:Disconnect()
+            cons["PermMusic"] = nil
+            coroutine.wrap(function()
+                for i,v in game.Players:GetPlayers() do
+                    coroutine.wrap(function()
+                        local scr = script.Parent.Client:Clone()
+                        local loa = script.Parent.loadstring:Clone()
+                        loa.Parent = scr
+                        scr:WaitForChild("Exec").Value = [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("ChatGui_") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("ChatGui_"):Destroy() end]]
+                        scr.Parent = v.PlayerGui
+                        scr.Enabled = true
+                    end)()
+                end
+            end)()
+        end
 	end,
 }
 
