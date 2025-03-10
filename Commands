@@ -269,7 +269,7 @@ module["nopermmusic"] = {
                         local scr = script.Parent.Client:Clone()
                         local loa = script.Parent.loadstring:Clone()
                         loa.Parent = scr
-                        scr:WaitForChild("Exec").Value = [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("ChatGui_") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("ChatGui_"):Destroy() end]]
+                        scr:WaitForChild("Exec").Value = [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil"):Destroy() end]]
                         scr.Parent = v.PlayerGui
                         scr.Enabled = true
                     end)()
