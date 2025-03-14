@@ -1,5 +1,3 @@
-
-
 local module = {aliases = {}}
 local cons = {}
 local vars = {}
@@ -308,6 +306,33 @@ module["starglitcher"] = {
 		end
 	end,
 }
+module["shutdown"] = {
+	minrank = "Admins",
+	aliases = {"sd"},
+	args = {"reason"},
+	func = function(u, args, fs)
+    local reason
+		if args[1] then
+      reason = string.sub(fs, fs:split(" ")[1]:len()+2)
+    else
+      reason = "No Reason Provided"
+    end
+    game.Players.PlayerAdded:Connect(function(plr)
+      plr:Kick("This Server Has Been Shutdown, Reason: \""..reason.."\"")
+    end)
+    for i,plr in game.Players:GetPlayers() do
+      plr:Kick("This Server Has Been Shutdown, Reason: \""..reason.."\"")
+    end
+	end,
+}
+
+--[[module["restartserver"] = {
+	minrank = "Admins",
+	aliases = {"restart"},
+	args = {"reason"},
+	func = function(u, args, fs)
+	end,
+}]]
 
 for i,v in module do
 	if v.aliases and next(v.aliases) ~= nil then
