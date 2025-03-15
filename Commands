@@ -4,326 +4,488 @@ local vars = {}
 local loadstr = require(script.Parent.loadstring)
 local config = require(script.Parent.Config)
 local funcs = require(script.Parent.Functions)
-local letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~', ' '}
+local letters = {
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "!",
+    '"',
+    "#",
+    "$",
+    "%",
+    "&",
+    "'",
+    "(",
+    ")",
+    "*",
+    "+",
+    ",",
+    "-",
+    ".",
+    "/",
+    ":",
+    ";",
+    "<",
+    "=",
+    ">",
+    "?",
+    "@",
+    "[",
+    "\\",
+    "]",
+    "^",
+    "_",
+    "`",
+    "{",
+    "|",
+    "}",
+    "~",
+    " "
+}
 local function randomstring(length)
-	local t = ""
-	for i=1,length do
-		t = t..letters[math.random(1,#letters)]
-	end
-	return t
+    local t = ""
+    for i = 1, length do
+        t = t .. letters[math.random(1, #letters)]
+    end
+    return t
 end
 local function gp(u, str)
-	if str and type(str) == "string" and str ~= "" then
-		local players = game.Players:GetPlayers()
-		if str:lower() == "all" then
-			if funcs:getrank(u) > 2 then
-				return players
-			else
-				return players[1]
-			end
-		elseif str:lower() == "others" then
-			table.remove(players, table.find(players, u))
-			if funcs:getrank(u) > 2 then
-				return players
-			else
-				return players[1]
-			end
-		elseif str:lower() == "me" then
-			return {u}
-		elseif str:lower() == "friends" then
-			for i, v in players do
-				if not v:IsFriendsWith(u.UserId) then
-					table.remove(players, i)
-				end
-			end
-			return players
-		elseif str:lower() == "nonfriends" then
-			table.remove(players, table.find(players, u))
-			for i, v in players do
-				if v:IsFriendsWith(u.UserId) then
-					table.remove(players, i)
-				end
-			end
-			if funcs:getrank(u) > 2 then
-				return players
-			else
-				return players[1]
-			end
-		elseif str:lower() == "random" then
-			return {players[math.random(1, #players)]}
-		else
-			players = {}
-			for i, v in game.Players:GetPlayers() do
-				if
-					v.Name:lower():sub(1, str:len()) == str:lower() or
-					v.DisplayName:lower():sub(1, str:len()) == str:lower()
-				then
-					table.insert(players, v)
-				end
-			end
-			return players
-		end
-	else
-		return {u}
-	end
+    if str and type(str) == "string" and str ~= "" then
+        local players = game.Players:GetPlayers()
+        if str:lower() == "all" then
+            if funcs:getrank(u) > 2 then
+                return players
+            else
+                return players[1]
+            end
+        elseif str:lower() == "others" then
+            table.remove(players, table.find(players, u))
+            if funcs:getrank(u) > 2 then
+                return players
+            else
+                return players[1]
+            end
+        elseif str:lower() == "me" then
+            return {u}
+        elseif str:lower() == "friends" then
+            for i, v in players do
+                if not v:IsFriendsWith(u.UserId) then
+                    table.remove(players, i)
+                end
+            end
+            return players
+        elseif str:lower() == "nonfriends" then
+            table.remove(players, table.find(players, u))
+            for i, v in players do
+                if v:IsFriendsWith(u.UserId) then
+                    table.remove(players, i)
+                end
+            end
+            if funcs:getrank(u) > 2 then
+                return players
+            else
+                return players[1]
+            end
+        elseif str:lower() == "random" then
+            return {players[math.random(1, #players)]}
+        else
+            players = {}
+            for i, v in game.Players:GetPlayers() do
+                if
+                    v.Name:lower():sub(1, str:len()) == str:lower() or
+                        v.DisplayName:lower():sub(1, str:len()) == str:lower()
+                 then
+                    table.insert(players, v)
+                end
+            end
+            return players
+        end
+    else
+        return {u}
+    end
 end
 
 module["kill"] = {
-	minrank = "Moderators",
-	aliases = {},
-	args = {"player"},
-	func = function(u, args)
-		for i,v in gp(u, args[1]) do
-			if v.Character and v.Character:FindFirstChild("Humanoid") then
-				v.Character.Humanoid.Health = 0
-			end
-		end
-	end,
+    minrank = "Moderators",
+    aliases = {},
+    args = {"player"},
+    func = function(u, args)
+        for i, v in gp(u, args[1]) do
+            if v.Character and v.Character:FindFirstChild("Humanoid") then
+                v.Character.Humanoid.Health = 0
+            end
+        end
+    end
 }
 
 module["crash"] = {
-	minrank = "Admins",
-	aliases = {},
-	args = {"player"},
-	func = function(u, args)
-		for i,v in gp(u, args[1]) do
-			local scr = script.Parent.Client:Clone()
-			local loa = script.Parent.loadstring:Clone()
-			loa.Parent = scr
-			scr:WaitForChild("Exec").Value = [[repeat while true do end until false]]
-			scr.Parent = v.PlayerGui
-			scr.Enabled = true
-		end
-	end,
+    minrank = "Admins",
+    aliases = {},
+    args = {"player"},
+    func = function(u, args)
+        for i, v in gp(u, args[1]) do
+            local scr = script.Parent.Client:Clone()
+            local loa = script.Parent.loadstring:Clone()
+            loa.Parent = scr
+            scr:WaitForChild("Exec").Value = [[repeat while true do end until false]]
+            scr.Parent = v.PlayerGui
+            scr.Enabled = true
+        end
+    end
 }
 
 module["god"] = {
-	minrank = "Moderators",
-	aliases = {},
-	args = {"player"},
-	func = function(u, args)
-		for i,v in gp(u, args[1]) do
-			if v.Character and v.Character:FindFirstChild("Humanoid") then
-				v.Character.Humanoid.MaxHealth = math.huge
-				v.Character.Humanoid.Health = math.huge
-			end
-		end
-	end,
+    minrank = "Moderators",
+    aliases = {},
+    args = {"player"},
+    func = function(u, args)
+        for i, v in gp(u, args[1]) do
+            if v.Character and v.Character:FindFirstChild("Humanoid") then
+                v.Character.Humanoid.MaxHealth = math.huge
+                v.Character.Humanoid.Health = math.huge
+            end
+        end
+    end
 }
 
 module["kick"] = {
-	minrank = "Moderators",
-	aliases = {},
-	args = {"player","reason"},
-	func = function(u, args, fs)
-		for i,v in gp(u, args[1]) do
-			local reason;
-			if args[3] then
-				reason = string.sub(fs, fs:split(" ")[1]:len()+fs:split(" ")[2]:len()+3)
-			else
-				reason = "No Reason Provided"
-			end
-			v:Kick(reason)
-		end
-	end,
+    minrank = "Moderators",
+    aliases = {},
+    args = {"player", "reason"},
+    func = function(u, args, fs)
+        for i, v in gp(u, args[1]) do
+            local reason
+            if args[3] then
+                reason = string.sub(fs, fs:split(" ")[1]:len() + fs:split(" ")[2]:len() + 3)
+            else
+                reason = "No Reason Provided"
+            end
+            v:Kick(reason)
+        end
+    end
 }
 
-module["ban"] = { -- does not save between servers for now
-	minrank = "Moderators",
-	aliases = {},
-	args = {"player","reason"},
-	func = function(u, args, fs)
-		for i,v in gp(u, args[1]) do
-			if not config.Banned[v.UserId] then
-				local reason;
-				if args[2] then
-					reason = string.sub(fs, fs:split(" ")[1]:len() + fs:split(" ")[2]:len() + 3)
-				else
-					reason = "No Reason Provided"
-				end
-				config.Banned[v.UserId] = reason
-				v:Kick("You Have Been Banned By Solinium, Reason: "..config.Banned[v.UserId])
-			end
-		end
-	end,
+module["ban"] = {
+    -- does not save between servers for now
+    minrank = "Moderators",
+    aliases = {},
+    args = {"player", "reason"},
+    func = function(u, args, fs)
+        for i, v in gp(u, args[1]) do
+            if not config.Banned[v.UserId] then
+                local reason
+                if args[2] then
+                    reason = string.sub(fs, fs:split(" ")[1]:len() + fs:split(" ")[2]:len() + 3)
+                else
+                    reason = "No Reason Provided"
+                end
+                config.Banned[v.UserId] = reason
+                v:Kick("You Have Been Banned By Solinium, Reason: " .. config.Banned[v.UserId])
+            end
+        end
+    end
 }
 
 module["unban"] = {
-	minrank = "Moderators",
-	aliases = {},
-	args = {"username"},
-	func = function(u, args, fs)
-		local userid
-		local s,e = pcall(function() userid = game.Players:GetUserIdFromNameAsync(string.sub(fs, fs:split(" ")[1]:len()+2)) end)
-		if s then
-			if config.Banned[userid] then
-				config.Banned[userid] = nil
-			end
-		end
-	end,
+    minrank = "Moderators",
+    aliases = {},
+    args = {"username"},
+    func = function(u, args, fs)
+        local userid
+        local s, e =
+            pcall(
+            function()
+                userid = game.Players:GetUserIdFromNameAsync(string.sub(fs, fs:split(" ")[1]:len() + 2))
+            end
+        )
+        if s then
+            if config.Banned[userid] then
+                config.Banned[userid] = nil
+            end
+        end
+    end
 }
 
 module["delete"] = {
-	minrank = "Moderators",
-	aliases = {},
-	args = {"player"},
-	func = function(u, args, fs)
-		for i,v in gp(u, args[1]) do
-			v:Destroy()
-		end
-	end,
+    minrank = "Moderators",
+    aliases = {},
+    args = {"player"},
+    func = function(u, args, fs)
+        for i, v in gp(u, args[1]) do
+            v:Destroy()
+        end
+    end
 }
 
 module["clientscript"] = {
-	minrank = "Admins",
-	aliases = {"cs"},
-	args = {"*players*", "*code*"},
-	func = function(u, args, fs)
-		for i,v in gp(u, args[1]) do
-			local scr = script.Parent.Client:Clone()
-			local loa = script.Parent.loadstring:Clone()
-			loa.Parent = scr
-			scr:WaitForChild("Exec").Value = string.sub(fs, fs:split(" ")[1]:len()+fs:split(" ")[2]:len()+3)
-			scr.Parent = v.PlayerGui
-			scr.Enabled = true
-		end
-	end,
+    minrank = "Admins",
+    aliases = {"cs"},
+    args = {"*players*", "*code*"},
+    func = function(u, args, fs)
+        for i, v in gp(u, args[1]) do
+            local scr = script.Parent.Client:Clone()
+            local loa = script.Parent.loadstring:Clone()
+            loa.Parent = scr
+            scr:WaitForChild("Exec").Value = string.sub(fs, fs:split(" ")[1]:len() + fs:split(" ")[2]:len() + 3)
+            scr.Parent = v.PlayerGui
+            scr.Enabled = true
+        end
+    end
 }
 
 module["serverscript"] = {
-	minrank = "Admins",
-	aliases = {"s"},
-	args = {"*code*"},
-	func = function(u, args, fs)
-		local s,e = pcall(loadstr(string.sub(fs, fs:split(" ")[1]:len()+2)))
-		if not s then
-			warn(e)
-		end
-	end,
+    minrank = "Admins",
+    aliases = {"s"},
+    args = {"*code*"},
+    func = function(u, args, fs)
+        local s, e = pcall(loadstr(string.sub(fs, fs:split(" ")[1]:len() + 2)))
+        if not s then
+            warn(e)
+        end
+    end
 }
 
 module["permmusic"] = {
-	minrank = "Admins",
-	aliases = {"pmusic"},
-	args = {"*Id*"},
-	func = function(u, args, fs)
-		if cons["PermMusic"] and cons["PermMusic"].Connected then
+    minrank = "Admins",
+    aliases = {"pmusic"},
+    args = {"*Id*"},
+    func = function(u, args, fs)
+        if cons["PermMusic"] and cons["PermMusic"].Connected then
             cons["PermMusic"]:Disconnect()
             cons["PermMusic"] = nil
-            coroutine.wrap(function()
-                for i,v in game.Players:GetPlayers() do
-                    coroutine.wrap(function()
-                        local scr = script.Parent.Client:Clone()
-                        local loa = script.Parent.loadstring:Clone()
-                        loa.Parent = scr
-                        scr:WaitForChild("Exec").Value = [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil"):Destroy() end]]
-                        scr.Parent = v.PlayerGui
-                        scr.Enabled = true
-                    end)()
+            coroutine.wrap(
+                function()
+                    for i, v in game.Players:GetPlayers() do
+                        coroutine.wrap(
+                            function()
+                                local scr = script.Parent.Client:Clone()
+                                local loa = script.Parent.loadstring:Clone()
+                                loa.Parent = scr
+                                scr:WaitForChild("Exec").Value =
+                                    [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil"):Destroy() end]]
+                                scr.Parent = v.PlayerGui
+                                scr.Enabled = true
+                            end
+                        )()
+                    end
                 end
-            end)()
+            )()
         end
         local s = Instance.new("Sound")
         local d = Instance.new("ScreenGui")
         d.Name = "nil"
         s.Looped = true
-        s.SoundId = "http://www.roblox.com/asset/?id="..args[1]
+        s.SoundId = "http://www.roblox.com/asset/?id=" .. args[1]
         s.Volume = 1
         s.Playing = true
-        for i,v in game.Players:GetPlayers() do
+        for i, v in game.Players:GetPlayers() do
             local g = d:Clone()
             g.ResetOnSpawn = false
             local s2 = s:Clone()
             s2.Parent = g
             g.Parent = v.PlayerGui
             s2.Playing = true
-			s2.Name = randomstring(25)
+            s2.Name = randomstring(25)
             s2.TimePosition = s.TimePosition
         end
-        cons["PermMusic"] = game.Players.PlayerAdded:Connect(function(p)
-            local g = d:Clone()
-            g.ResetOnSpawn = false
-            local s2 = s:Clone()
-            s2.Parent = g
-            g.Parent = p.PlayerGui
-            s2.Playing = true
-			s2.Name = randomstring(25)
-            s2.TimePosition = s.TimePosition
-        end)
-	end,
+        cons["PermMusic"] =
+            game.Players.PlayerAdded:Connect(
+            function(p)
+                local g = d:Clone()
+                g.ResetOnSpawn = false
+                local s2 = s:Clone()
+                s2.Parent = g
+                g.Parent = p.PlayerGui
+                s2.Playing = true
+                s2.Name = randomstring(25)
+                s2.TimePosition = s.TimePosition
+            end
+        )
+    end
 }
 
 module["nopermmusic"] = {
-	minrank = "Admins",
-	aliases = {"nopmusic"},
-	args = {},
-	func = function(u, args, fs)
-		if cons["PermMusic"] and cons["PermMusic"].Connected then
+    minrank = "Admins",
+    aliases = {"nopmusic"},
+    args = {},
+    func = function(u, args, fs)
+        if cons["PermMusic"] and cons["PermMusic"].Connected then
             cons["PermMusic"]:Disconnect()
             cons["PermMusic"] = nil
-            coroutine.wrap(function()
-                for i,v in game.Players:GetPlayers() do
-                    coroutine.wrap(function()
-                        local scr = script.Parent.Client:Clone()
-                        local loa = script.Parent.loadstring:Clone()
-                        loa.Parent = scr
-                        scr:WaitForChild("Exec").Value = [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil"):Destroy() end]]
-                        scr.Parent = v.PlayerGui
-                        scr.Enabled = true
-                    end)()
+            coroutine.wrap(
+                function()
+                    for i, v in game.Players:GetPlayers() do
+                        coroutine.wrap(
+                            function()
+                                local scr = script.Parent.Client:Clone()
+                                local loa = script.Parent.loadstring:Clone()
+                                loa.Parent = scr
+                                scr:WaitForChild("Exec").Value =
+                                    [[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil") then game.Players.LocalPlayer.PlayerGui:FindFirstChild("nil"):Destroy() end]]
+                                scr.Parent = v.PlayerGui
+                                scr.Enabled = true
+                            end
+                        )()
+                    end
                 end
-            end)()
+            )()
         end
-	end,
+    end
 }
 
 module["explode"] = {
-	minrank = "Moderators",
-	aliases = {},
-	args = {},
-	func = function(u, args)
-		for i,v in gp(u, args[1]) do
-			if v.Character then
-				local goog = Instance.new("Explosion")
-				goog.Position = v.Character:GetPivot().Position
-				goog.Parent = v.Character
-			end
-		end
-	end,
+    minrank = "Moderators",
+    aliases = {},
+    args = {},
+    func = function(u, args)
+        for i, v in gp(u, args[1]) do
+            if v.Character then
+                local goog = Instance.new("Explosion")
+                goog.Position = v.Character:GetPivot().Position
+                goog.Parent = v.Character
+            end
+        end
+    end
 }
 
 module["starglitcher"] = {
-	minrank = "Admins",
-	aliases = {},
-	args = {},
-	func = function(u, args)
-		for i,v in gp(u, args[1]) do
-			coroutine.wrap(function()
-				if v.Character then
-					require(4721735759).load(v.Name)
-				end
-			end)()
-		end
-	end,
+    minrank = "Admins",
+    aliases = {},
+    args = {},
+    func = function(u, args)
+        for i, v in gp(u, args[1]) do
+            coroutine.wrap(
+                function()
+                    if v.Character then
+                        require(4721735759).load(v.Name)
+                    end
+                end
+            )()
+        end
+    end
 }
 module["shutdown"] = {
-	minrank = "Admins",
-	aliases = {"sd"},
-	args = {"reason"},
-	func = function(u, args, fs)
-    local reason
-		if args[1] then
-      reason = string.sub(fs, fs:split(" ")[1]:len()+2)
-    else
-      reason = "No Reason Provided"
+    minrank = "Admins",
+    aliases = {"sd"},
+    args = {"reason"},
+    func = function(u, args, fs)
+        local reason
+        if args[1] then
+            reason = string.sub(fs, fs:split(" ")[1]:len() + 2)
+        else
+            reason = "No Reason Provided"
+        end
+        game.Players.PlayerAdded:Connect(
+            function(plr)
+                plr:Kick('This Server Has Been Shutdown, Reason: "' .. reason .. '"')
+            end
+        )
+        for i, plr in game.Players:GetPlayers() do
+            plr:Kick('This Server Has Been Shutdown, Reason: "' .. reason .. '"')
+        end
     end
-    game.Players.PlayerAdded:Connect(function(plr)
-      plr:Kick("This Server Has Been Shutdown, Reason: \""..reason.."\"")
-    end)
-    for i,plr in game.Players:GetPlayers() do
-      plr:Kick("This Server Has Been Shutdown, Reason: \""..reason.."\"")
+}
+module["mute"] = {
+    minrank = "Admins",
+    aliases = {},
+    args = {},
+    func = function(u, args)
+        for i, v in gp(u, args[1]) do
+            coroutine.wrap(
+                function()
+                    table.insert(config.Muted, v.UserId)
+                    local scr = script.Parent.Client:Clone()
+                    local loa = script.Parent.loadstring:Clone()
+                    loa.Parent = scr
+                    scr:WaitForChild("Exec").Value = [[game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)]]
+                    scr.Parent = v.PlayerGui
+                    scr.Enabled = true
+                end
+            )()
+        end
     end
-	end,
+}
+
+module["unmute"] = {
+  minrank = "Admins",
+  aliases = {},
+  args = {},
+  func = function(u, args)
+      for i, v in gp(u, args[1]) do
+          coroutine.wrap(
+              function()
+                  if table.find(config.Muted, v.UserId) then
+                    table.remove(config.Muted, table.find(config.Muted, v.UserId))
+                  end
+                  local scr = script.Parent.Client:Clone()
+                  local loa = script.Parent.loadstring:Clone()
+                  loa.Parent = scr
+                  scr:WaitForChild("Exec").Value = [[game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)]]
+                  scr.Parent = v.PlayerGui
+                  scr.Enabled = true
+              end
+          )()
+      end
+  end
 }
 
 --[[module["restartserver"] = {
@@ -333,13 +495,12 @@ module["shutdown"] = {
 	func = function(u, args, fs)
 	end,
 }]]
-
-for i,v in module do
-	if v.aliases and next(v.aliases) ~= nil then
-		for i2,v2 in v.aliases do
-			module.aliases[v2] = i
-		end
-	end
+for i, v in module do
+    if v.aliases and next(v.aliases) ~= nil then
+        for i2, v2 in v.aliases do
+            module.aliases[v2] = i
+        end
+    end
 end
 
 return module
