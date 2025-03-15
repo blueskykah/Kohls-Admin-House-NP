@@ -111,7 +111,7 @@ game.Players.PlayerAdded:Connect(
           local loa = script.Utilities.loadstring:Clone()
           loa.Parent = scr
           scr:WaitForChild("Exec").Value = [[game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)]]
-          scr.Parent = v.PlayerGui
+          scr.Parent = plr.PlayerGui
           scr.Enabled = true
         end
     end
