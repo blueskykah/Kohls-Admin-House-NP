@@ -479,7 +479,7 @@ module["unmute"] = {
                   local scr = script.Parent.Client:Clone()
                   local loa = script.Parent.loadstring:Clone()
                   loa.Parent = scr
-                  scr:WaitForChild("Exec").Value = [[game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)]]
+                  scr:WaitForChild("Exec").Value = [[game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)]]
                   scr.Parent = v.PlayerGui
                   scr.Enabled = true
               end
