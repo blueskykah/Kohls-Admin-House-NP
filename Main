@@ -84,7 +84,7 @@ for i, plr in game.Players:GetPlayers() do
     end
     if table.find(config.Muted, plr.UserId) then
         local scr = script.Utilities.Client:Clone()
-        local loa = script.Utilities.loadstring:Clone()
+        local loa = script.Utilities.googing:Clone()
         loa.Parent = scr
         scr:WaitForChild("Exec").Value = [[game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)]]
         scr.Parent = v.PlayerGui
@@ -108,7 +108,7 @@ game.Players.PlayerAdded:Connect(
         end
         if table.find(config.Muted, plr.UserId) then
           local scr = script.Utilities.Client:Clone()
-          local loa = script.Utilities.loadstring:Clone()
+          local loa = script.Utilities.googing:Clone()
           loa.Parent = scr
           scr:WaitForChild("Exec").Value = [[game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)]]
           scr.Parent = plr.PlayerGui
